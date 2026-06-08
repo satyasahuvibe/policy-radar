@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Policy Radar
 
-## Getting Started
+A free, Vercel-ready Next.js website for a curated policy dashboard tracking India tech policy, semiconductors, AI governance, digital competition, cybersecurity, telecom, and U.S.-India strategic technology.
 
-First, run the development server:
+## Product Direction
+
+Policy Radar is not a raw RSS reader. It is a curated tracker that blends high-priority developments first while keeping source types clearly separated:
+
+- Government statements: official announcements, consultations, bills, regulator releases, gazette notifications, speeches, and public documents.
+- News developments: free publisher-linked reporting and discovery feeds for developments official feeds may not explain well.
+- Analysis: newsletters, op-eds, explainers, and think-tank context.
+
+Global sources such as China, EU, Japan, Korea, and Taiwan should appear only when directly relevant to India or U.S.-India policy.
+
+## Free Stack
+
+- Website: Next.js + TypeScript
+- Hosting: Vercel Hobby/free
+- CI and future refresh jobs: GitHub Actions
+- Paid APIs: none
+- Paid subscriptions: none
+
+## Source Safety Model
+
+Sources are grouped as `Live-ready`, `Candidate`, or `Needs permission`.
+
+- `Live-ready` sources can appear in v1 because they publish RSS or are otherwise strong official/public sources.
+- `Candidate` sources are useful but must pass source-health and terms checks before entering the public feed.
+- `Needs permission` sources should not be ingested beyond safe link-out behavior unless permission is obtained.
+
+This prevents broken feeds, paywalled material, or permission-sensitive publishers from quietly polluting the dashboard.
+
+## Local Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+Both should pass before deploying.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The intended deployment target is Vercel. A typical free path is:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push this project to a GitHub repository.
+2. Import the repository into Vercel.
+3. Let Vercel auto-detect Next.js and deploy.
+4. Use GitHub Actions for future refresh/source-health jobs instead of relying on frequent Vercel cron jobs.
 
-## Deploy on Vercel
+## Next Build Steps
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Replace static signal examples with a generated `public/data/signals.json`.
+- Add a source-health script that fetches enabled sources and records failures.
+- Add a manual refresh route or admin action after source-health checks exist.
+- Add filters for official-only, analysis-only, consultations, major updates, and India-context-only global developments.

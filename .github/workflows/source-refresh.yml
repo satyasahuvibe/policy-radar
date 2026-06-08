@@ -1,0 +1,21 @@
+name: Source Refresh Placeholder
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *"
+
+jobs:
+  refresh:
+    name: Reserved free refresh slot
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Explain current v1 behavior
+        run: |
+          echo "Policy Radar v1 intentionally uses curated static source data."
+          echo "Future refresh jobs should verify source health before publishing items."
+          echo "Candidate sources must stay hidden from the public feed until tested."
