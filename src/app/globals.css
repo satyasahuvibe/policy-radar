@@ -38,6 +38,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -132,8 +137,13 @@ button {
 .primary-nav {
   gap: clamp(18px, 4vw, 46px);
   overflow-x: auto;
+  scrollbar-width: none;
   border-bottom: 1px solid var(--line);
   padding: 20px 24px 0;
+}
+
+.primary-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .primary-nav button {

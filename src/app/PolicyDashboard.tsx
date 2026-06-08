@@ -52,7 +52,7 @@ function groupClass(group: ContentGroup) {
 }
 
 function sourceLabel(sourceKind: SourceKind) {
-  if (sourceKind === "Open index") return "News";
+  if (sourceKind === "Open index") return "Discovery";
   return sourceKind;
 }
 
@@ -115,6 +115,16 @@ export function PolicyDashboard() {
   const governmentItems = items.filter((item) => item.group === "Government statements").slice(0, 5);
   const newsItems = items.filter((item) => item.group === "News developments").slice(0, 5);
 
+  const setTopicView = (topic: "All" | Topic) => {
+    setActiveTopic(topic);
+    setActiveGroup("All");
+  };
+
+  const setGroupView = (group: "All" | ContentGroup) => {
+    setActiveGroup(group);
+    setActiveTopic("All");
+  };
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -134,17 +144,18 @@ export function PolicyDashboard() {
       </header>
 
       <nav className="primary-nav" aria-label="Primary categories">
-        <button type="button" className={activeGroup === "All" ? "active" : ""} onClick={() => setActiveGroup("All")}>
+        <button
+          type="button"
+          className={activeGroup === "All" && activeTopic === "All" ? "active" : ""}
+          onClick={() => setTopicView("All")}
+        >
           All
         </button>
         {topicList.map((topic) => (
           <button
             type="button"
             className={activeTopic === topic ? "active" : ""}
-            onClick={() => {
-              setActiveTopic(topic);
-              setActiveGroup("All");
-            }}
+            onClick={() => setTopicView(topic)}
             key={topic}
           >
             {topic}
@@ -152,15 +163,15 @@ export function PolicyDashboard() {
         ))}
         <button
           type="button"
-          className={activeGroup === "Analysis" ? "active" : ""}
-          onClick={() => setActiveGroup("Analysis")}
+          className={activeGroup === "Analysis" && activeTopic === "All" ? "active" : ""}
+          onClick={() => setGroupView("Analysis")}
         >
           Analysis
         </button>
         <button
           type="button"
-          className={activeGroup === "Government statements" ? "active" : ""}
-          onClick={() => setActiveGroup("Government statements")}
+          className={activeGroup === "Government statements" && activeTopic === "All" ? "active" : ""}
+          onClick={() => setGroupView("Government statements")}
         >
           Official
         </button>
@@ -207,8 +218,8 @@ export function PolicyDashboard() {
           {groups.map((group) => (
             <button
               type="button"
-              className={activeGroup === group ? "active" : ""}
-              onClick={() => setActiveGroup(group)}
+              className={activeGroup === group && activeTopic === "All" ? "active" : ""}
+              onClick={() => setGroupView(group)}
               key={group}
             >
               {group}

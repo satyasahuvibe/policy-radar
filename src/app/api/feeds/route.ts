@@ -1,4 +1,4 @@
-import { fallbackItems, feedSources, type FeedItem, type FeedSource, type Topic } from "@/data/policy-radar";
+import { curatedItems, feedSources, type FeedItem, type FeedSource, type Topic } from "@/data/policy-radar";
 
 export const dynamic = "force-dynamic";
 
@@ -176,7 +176,7 @@ export async function GET() {
     .map((result, index) => (result.status === "rejected" ? feedSources[index].name : null))
     .filter(Boolean);
 
-  const items = dedupe([...liveItems, ...fallbackItems]).sort((a, b) => b.priority - a.priority);
+  const items = dedupe([...curatedItems, ...liveItems]).sort((a, b) => b.priority - a.priority);
 
   return Response.json({
     generatedAt: new Date().toISOString(),
